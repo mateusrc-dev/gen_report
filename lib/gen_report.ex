@@ -35,11 +35,19 @@ defmodule GenReport do
   ]
 
   def build(filename) do
-    filename
-    |> Parser.parser_file()
-    |> Enum.reduce(report_acc(), fn line, report ->
-      sum_values(line, report)
-    end)
+    result = File.read("reports/#{filename}")
+
+    case result do
+      {:error, :enoent} ->
+        {:error, "report is not provider!"}
+
+      _ ->
+        filename
+        |> Parser.parser_file()
+        |> Enum.reduce(report_acc(), fn line, report ->
+          sum_values(line, report)
+        end)
+    end
   end
 
   def fetch_higher_hour(report) do

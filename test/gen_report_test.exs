@@ -238,6 +238,14 @@ defmodule GenReportTest do
 
       assert response == expected_response
     end
+
+    test "unable to create the report if you do not provide the correct report path" do
+      response = GenReport.build("bananas")
+
+      expected_response = {:error, "report is not provider!"}
+
+      assert response == expected_response
+    end
   end
 
   describe "fetch_higher_hour/1" do
