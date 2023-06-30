@@ -36,18 +36,14 @@ defmodule GenReport do
 
   def build(filename) do
     filename
-    |> Parser.parse_file()
+    |> Parser.parser_file()
     |> Enum.reduce(report_acc(), fn line, report ->
       sum_values(line, report)
     end)
   end
 
-  def fetch_higher_hour(report, option) when option in @options do
+  def fetch_higher_hour(report) do
     {:ok, Enum.max_by(report["all_hours"], fn {_key, value} -> value end)}
-  end
-
-  def fetch_higher_hour(_report, _option) do
-    {:error, "Invalid option!"}
   end
 
   def fetch_higher_hour_by_month_or_year(report, option, name)

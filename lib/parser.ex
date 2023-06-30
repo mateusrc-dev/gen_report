@@ -1,5 +1,5 @@
 defmodule GenReport.Parser do
-  def parse_file(filename) do
+  def parser_file(filename) do
     "reports/#{filename}"
     |> File.stream!()
     |> Enum.map(fn line -> parse_line(line) end)
