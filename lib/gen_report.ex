@@ -50,6 +50,12 @@ defmodule GenReport do
     end
   end
 
+  def build_from_many(filenames) do
+    filenames
+    |> Task.async_stream(fn filenames -> build(filenames) end)
+    |> Enum.reduce(report_acc(), fn {:ok, result}, report -> sum_reports(report, result) end)
+  end
+
   def fetch_higher_hour(report) do
     {:ok, Enum.max_by(report["all_hours"], fn {_key, value} -> value end)}
   end
@@ -99,6 +105,37 @@ defmodule GenReport do
     |> Map.put("hours_per_year", namesWithYears)
   end
 
+  defp sum_reports(
+         %{
+           "all_hours" => names1,
+           "hours_per_month" => namesWithMonths1,
+           "hours_per_year" => namesWithYears1
+         },
+         %{
+           "all_hours" => names2,
+           "hours_per_month" => namesWithMonths2,
+           "hours_per_year" => namesWithYears2
+         }
+       ) do
+    names = merge_maps1(names1, names2)
+    namesWithMonths = merge_maps2(namesWithMonths1, namesWithMonths2)
+    namesWithYears = merge_maps2(namesWithYears1, namesWithYears2)
+
+    build_report(names, namesWithMonths, namesWithYears)
+  end
+
+  defp merge_maps1(map1, map2) do
+    Map.merge(map1, map2, fn _key, value1, value2 -> value1 + value2 end)
+  end
+
+  defp merge_maps2(map1, map2) do
+    Map.merge(map1, map2, fn _key, value1, value2 ->
+      Map.merge(value1, value2, fn _key, inside_value1, inside_value2 ->
+        inside_value1 + inside_value2
+      end)
+    end)
+  end
+
   defp report_acc do
     names = Enum.into(@name_worker, %{}, &{&1, 0})
     months = Enum.into(@months, %{}, &{&1, 0})
@@ -106,6 +143,10 @@ defmodule GenReport do
     years = Enum.into(2016..2020, %{}, &{&1, 0})
     namesWithYears = Enum.into(@name_worker, %{}, &{&1, years})
 
+    build_report(names, namesWithMonths, namesWithYears)
+  end
+
+  defp build_report(names, namesWithMonths, namesWithYears) do
     %{
       "all_hours" => names,
       "hours_per_month" => namesWithMonths,
