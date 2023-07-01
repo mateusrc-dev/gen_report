@@ -248,6 +248,255 @@ defmodule GenReportTest do
     end
   end
 
+  describe "build_from_many/1" do
+    test "when a file list is provide, builds the report" do
+      filenames = ["gen_reports_test.csv", "gen_reports_test.csv"]
+
+      response = GenReport.build_from_many(filenames)
+
+      expected_response =
+        {:ok,
+         %{
+           "all_hours" => %{
+             "Cleiton" => 2,
+             "Daniele" => 24,
+             "Danilo" => 0,
+             "Diego" => 0,
+             "Giuliano" => 18,
+             "Jakeliny" => 28,
+             "Joseph" => 6,
+             "Mayk" => 10,
+             "Rafael" => 0,
+             "Vinicius" => 0
+           },
+           "hours_per_month" => %{
+             "Cleiton" => %{
+               "abril" => 0,
+               "agosto" => 0,
+               "dezembro" => 0,
+               "fevereiro" => 0,
+               "janeiro" => 0,
+               "julho" => 0,
+               "junho" => 2,
+               "maio" => 0,
+               "março" => 0,
+               "novembro" => 0,
+               "outubro" => 0,
+               "setembro" => 0
+             },
+             "Daniele" => %{
+               "abril" => 14,
+               "agosto" => 0,
+               "dezembro" => 10,
+               "fevereiro" => 0,
+               "janeiro" => 0,
+               "julho" => 0,
+               "junho" => 0,
+               "maio" => 0,
+               "março" => 0,
+               "novembro" => 0,
+               "outubro" => 0,
+               "setembro" => 0
+             },
+             "Danilo" => %{
+               "abril" => 0,
+               "agosto" => 0,
+               "dezembro" => 0,
+               "fevereiro" => 0,
+               "janeiro" => 0,
+               "julho" => 0,
+               "junho" => 0,
+               "maio" => 0,
+               "março" => 0,
+               "novembro" => 0,
+               "outubro" => 0,
+               "setembro" => 0
+             },
+             "Diego" => %{
+               "abril" => 0,
+               "agosto" => 0,
+               "dezembro" => 0,
+               "fevereiro" => 0,
+               "janeiro" => 0,
+               "julho" => 0,
+               "junho" => 0,
+               "maio" => 0,
+               "março" => 0,
+               "novembro" => 0,
+               "outubro" => 0,
+               "setembro" => 0
+             },
+             "Giuliano" => %{
+               "abril" => 0,
+               "agosto" => 0,
+               "dezembro" => 0,
+               "fevereiro" => 18,
+               "janeiro" => 0,
+               "julho" => 0,
+               "junho" => 0,
+               "maio" => 0,
+               "março" => 0,
+               "novembro" => 0,
+               "outubro" => 0,
+               "setembro" => 0
+             },
+             "Jakeliny" => %{
+               "abril" => 0,
+               "agosto" => 0,
+               "dezembro" => 0,
+               "fevereiro" => 0,
+               "janeiro" => 0,
+               "julho" => 16,
+               "junho" => 0,
+               "maio" => 0,
+               "março" => 12,
+               "novembro" => 0,
+               "outubro" => 0,
+               "setembro" => 0
+             },
+             "Joseph" => %{
+               "abril" => 0,
+               "agosto" => 0,
+               "dezembro" => 0,
+               "fevereiro" => 0,
+               "janeiro" => 0,
+               "julho" => 0,
+               "junho" => 0,
+               "maio" => 0,
+               "março" => 6,
+               "novembro" => 0,
+               "outubro" => 0,
+               "setembro" => 0
+             },
+             "Mayk" => %{
+               "abril" => 0,
+               "agosto" => 0,
+               "dezembro" => 10,
+               "fevereiro" => 0,
+               "janeiro" => 0,
+               "julho" => 0,
+               "junho" => 0,
+               "maio" => 0,
+               "março" => 0,
+               "novembro" => 0,
+               "outubro" => 0,
+               "setembro" => 0
+             },
+             "Rafael" => %{
+               "abril" => 0,
+               "agosto" => 0,
+               "dezembro" => 0,
+               "fevereiro" => 0,
+               "janeiro" => 0,
+               "julho" => 0,
+               "junho" => 0,
+               "maio" => 0,
+               "março" => 0,
+               "novembro" => 0,
+               "outubro" => 0,
+               "setembro" => 0
+             },
+             "Vinicius" => %{
+               "abril" => 0,
+               "agosto" => 0,
+               "dezembro" => 0,
+               "fevereiro" => 0,
+               "janeiro" => 0,
+               "julho" => 0,
+               "junho" => 0,
+               "maio" => 0,
+               "março" => 0,
+               "novembro" => 0,
+               "outubro" => 0,
+               "setembro" => 0
+             }
+           },
+           "hours_per_year" => %{
+             "Cleiton" => %{
+               2016 => 0,
+               2017 => 0,
+               2018 => 0,
+               2019 => 0,
+               2020 => 2
+             },
+             "Daniele" => %{
+               2016 => 10,
+               2017 => 0,
+               2018 => 14,
+               2019 => 0,
+               2020 => 0
+             },
+             "Danilo" => %{
+               2016 => 0,
+               2017 => 0,
+               2018 => 0,
+               2019 => 0,
+               2020 => 0
+             },
+             "Diego" => %{
+               2016 => 0,
+               2017 => 0,
+               2018 => 0,
+               2019 => 0,
+               2020 => 0
+             },
+             "Giuliano" => %{
+               2016 => 0,
+               2017 => 6,
+               2018 => 0,
+               2019 => 12,
+               2020 => 0
+             },
+             "Jakeliny" => %{
+               2016 => 0,
+               2017 => 16,
+               2018 => 0,
+               2019 => 12,
+               2020 => 0
+             },
+             "Joseph" => %{
+               2016 => 0,
+               2017 => 6,
+               2018 => 0,
+               2019 => 0,
+               2020 => 0
+             },
+             "Mayk" => %{
+               2016 => 0,
+               2017 => 2,
+               2018 => 0,
+               2019 => 8,
+               2020 => 0
+             },
+             "Rafael" => %{
+               2016 => 0,
+               2017 => 0,
+               2018 => 0,
+               2019 => 0,
+               2020 => 0
+             },
+             "Vinicius" => %{
+               2016 => 0,
+               2017 => 0,
+               2018 => 0,
+               2019 => 0,
+               2020 => 0
+             }
+           }
+         }}
+
+      assert response == expected_response
+    end
+
+    test "when a file list is not provided, returns an error" do
+      response = GenReport.build_from_many("banana")
+
+      expected_response = {:error, 'Please, provider a list of string!'}
+
+      assert response == expected_response
+    end
+  end
+
   describe "fetch_higher_hour/1" do
     test "when the report is passed, returns the name worker with most hour" do
       file_name = "gen_reports_test_complete.csv"
